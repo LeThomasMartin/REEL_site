@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RÉEL — Regroupement des Étudiants Entrepreneurs de l'Université Laval</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rouge:    #D62828;
+      --rouge-dk: #A61E1E;
+      --noir:     #0E0E0E;
+      --gris-fonce:#1A1A1A;
+      --gris-med: #2D2D2D;
+      --gris-clair:#F5F4F0;
+      --blanc:    #FAFAF8;
+      --accent:   #FF6B35;
+      --texte:    #1A1A1A;
+      --texte-doux:#6B6B6B;
+      --border:   #E8E6E0;
+
+      --f-titre: 'Syne', sans-serif;
+      --f-corps: 'DM Sans', sans-serif;
+
+      --r: 6px;
+      --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--f-corps);
+      font-weight: 400;
+      color: var(--texte);
+      background: var(--blanc);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 72px;
+      background: rgba(250,250,248,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow var(--transition);
+    }
+    nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.08); }
+
+    .nav-logo img {
+      height: 36px;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--f-corps);
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--texte);
+      text-decoration: none;
+      position: relative;
+      transition: color var(--transition);
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 2px;
+      background: var(--rouge);
+      transition: width var(--transition);
+    }
+    .nav-links a:hover { color: var(--rouge); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--rouge);
+      color: #fff !important;
+      padding: 9px 20px;
+      border-radius: var(--r);
+      font-weight: 600 !important;
+      transition: background var(--transition), transform var(--transition) !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--rouge-dk) !important; transform: translateY(-1px); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--texte);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* mobile menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 72px; left: 0; right: 0;
+      background: var(--blanc);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 5% 32px;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 99;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--texte);
+      text-decoration: none;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color var(--transition);
+    }
+    .mobile-menu a:hover { color: var(--rouge); }
+    .mobile-menu .nav-cta {
+      background: var(--rouge);
+      color: #fff !important;
+      padding: 12px 20px;
+      border-radius: var(--r);
+      text-align: center;
+      border: none;
+    }
+
+    /* ── HERO ── */
+    #accueil {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 5% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 80% 30%, rgba(214,40,40,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 10% 80%, rgba(214,40,40,0.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.4;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, transparent 70%);
+    }
+
+    .hero-content { position: relative; max-width: 780px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(214,40,40,0.08);
+      border: 1px solid rgba(214,40,40,0.2);
+      color: var(--rouge);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--rouge); display: block; animation: pulse 2s infinite; }
+
+    .hero-titre {
+      font-family: var(--f-titre);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--noir);
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero-titre em {
+      font-style: normal;
+      color: var(--rouge);
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--texte-doux);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--rouge);
+      color: #fff;
+      font-family: var(--f-corps);
+      font-size: 0.92rem;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: var(--r);
+      text-decoration: none;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 4px 20px rgba(214,40,40,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--rouge-dk);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(214,40,40,0.35);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--texte);
+      font-family: var(--f-corps);
+      font-size: 0.92rem;
+      font-weight: 500;
+      padding: 14px 28px;
+      border-radius: var(--r);
+      border: 1.5px solid var(--border);
+      text-decoration: none;
+      transition: border-color var(--transition), color var(--transition), transform var(--transition);
+    }
+    .btn-secondary:hover {
+      border-color: var(--rouge);
+      color: var(--rouge);
+      transform: translateY(-2px);
+    }
+
+    .hero-scroll {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: absolute;
+      bottom: 40px;
+      left: 5%;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--texte-doux);
+      text-decoration: none;
+      animation: fadeUp 0.6s 0.5s ease both;
+    }
+    .scroll-line {
+      width: 40px; height: 1px;
+      background: var(--texte-doux);
+    }
+
+    /* ── SECTIONS COMMUNES ── */
+    section { padding: 100px 5%; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rouge);
+      margin-bottom: 12px;
+    }
+
+    .section-titre {
+      font-family: var(--f-titre);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--noir);
+      margin-bottom: 20px;
+    }
+
+    .section-desc {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--texte-doux);
+      line-height: 1.75;
+      max-width: 580px;
+    }
+
+    /* ── QUI SOMMES-NOUS ── */
+    #qui {
+      background: var(--gris-clair);
+    }
+
+    .qui-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .qui-image {
+      position: relative;
+    }
+    .qui-image img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+    }
+    .qui-image-badge {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      background: var(--rouge);
+      color: #fff;
+      font-family: var(--f-titre);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 14px 18px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(214,40,40,0.35);
+    }
+    .qui-image-badge strong { font-size: 1.6rem; display: block; }
+
+    .qui-content { }
+
+    .valeurs-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 28px;
+    }
+    .valeur-tag {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      color: var(--texte);
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 100px;
+      transition: border-color var(--transition), color var(--transition);
+    }
+    .valeur-tag:hover { border-color: var(--rouge); color: var(--rouge); }
+
+    /* ── MISSION & VISION ── */
+    #mission {
+      background: var(--blanc);
+    }
+
+    .mv-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .mv-card {
+      padding: 44px 36px;
+      background: var(--blanc);
+      position: relative;
+      transition: background var(--transition);
+    }
+    .mv-card:not(:last-child) {
+      border-right: 1px solid var(--border);
+    }
+    .mv-card:hover { background: var(--gris-clair); }
+
+    .mv-number {
+      font-family: var(--f-titre);
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: rgba(214,40,40,0.1);
+      line-height: 1;
+      margin-bottom: 16px;
+      transition: color var(--transition);
+    }
+    .mv-card:hover .mv-number { color: rgba(214,40,40,0.2); }
+
+    .mv-titre {
+      font-family: var(--f-titre);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--noir);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .mv-texte {
+      font-size: 0.93rem;
+      color: var(--texte-doux);
+      line-height: 1.7;
+    }
+
+    /* ── HÉRITAGE ── */
+    #heritage {
+      background: var(--noir);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .heritage-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 80% 50%, rgba(214,40,40,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .heritage-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+    }
+
+    .heritage-content .section-label { color: rgba(214,40,40,0.8); }
+
+    .heritage-titre {
+      font-family: var(--f-titre);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .heritage-desc {
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.75;
+      margin-bottom: 36px;
+    }
+
+    .btn-primary-dark {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--rouge);
+      color: #fff;
+      font-size: 0.92rem;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: var(--r);
+      text-decoration: none;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .btn-primary-dark:hover { background: var(--rouge-dk); transform: translateY(-2px); }
+
+    .btn-outline-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: #fff;
+      font-size: 0.92rem;
+      font-weight: 500;
+      padding: 14px 28px;
+      border-radius: var(--r);
+      border: 1.5px solid rgba(255,255,255,0.2);
+      text-decoration: none;
+      transition: border-color var(--transition), background var(--transition), transform var(--transition);
+    }
+    .btn-outline-white:hover {
+      border-color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.05);
+      transform: translateY(-2px);
+    }
+
+    .heritage-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .heritage-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 28px;
+      transition: background var(--transition), border-color var(--transition);
+    }
+    .heritage-card:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(214,40,40,0.3);
+    }
+
+    .heritage-card-icon {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+
+    .heritage-card-titre {
+      font-family: var(--f-titre);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .heritage-card-desc {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.6;
+    }
+
+    /* ── ÉVÉNEMENT ── */
+    #evenements {
+      background: var(--gris-clair);
+    }
+
+    .ev-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .ev-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .ev-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 24px;
+    }
+
+    .ev-card-featured {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .ev-card-featured:hover {
+      box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+      transform: translateY(-4px);
+    }
+
+    .ev-img {
+      aspect-ratio: 16/9;
+      overflow: hidden;
+    }
+    .ev-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .ev-card-featured:hover .ev-img img { transform: scale(1.04); }
+
+    .ev-body {
+      padding: 32px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ev-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .ev-tag {
+      background: rgba(214,40,40,0.08);
+      color: var(--rouge);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+    }
+
+    .ev-date {
+      font-size: 0.8rem;
+      color: var(--texte-doux);
+    }
+
+    .ev-titre-card {
+      font-family: var(--f-titre);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--noir);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .ev-desc-card {
+      font-size: 0.93rem;
+      color: var(--texte-doux);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 24px;
+    }
+
+    .ev-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--rouge);
+      text-decoration: none;
+      transition: gap var(--transition);
+    }
+    .ev-link:hover { gap: 10px; }
+
+    .ev-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .ev-card-small {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      transition: box-shadow var(--transition), transform var(--transition);
+      text-decoration: none;
+    }
+    .ev-card-small:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+      transform: translateX(4px);
+    }
+
+    .ev-card-small-date {
+      min-width: 52px;
+      text-align: center;
+      background: var(--gris-clair);
+      border-radius: 8px;
+      padding: 10px 8px;
+    }
+    .ev-card-small-date .jour {
+      font-family: var(--f-titre);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--rouge);
+      line-height: 1;
+    }
+    .ev-card-small-date .mois {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--texte-doux);
+    }
+
+    .ev-card-small-info { flex: 1; }
+    .ev-card-small-info h4 {
+      font-family: var(--f-titre);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--noir);
+      margin-bottom: 4px;
+    }
+    .ev-card-small-info p {
+      font-size: 0.82rem;
+      color: var(--texte-doux);
+    }
+
+    /* ── PARTENAIRES ── */
+    #partenaires {
+      background: var(--blanc);
+    }
+
+    .part-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .part-inner .section-titre { margin-bottom: 12px; }
+    .part-inner .section-desc { margin: 0 auto 48px; }
+
+    .part-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    .part-logo-item {
+      padding: 32px 48px;
+      border: 1px solid var(--border);
+      margin: -1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--transition);
+    }
+    .part-logo-item:hover { background: var(--gris-clair); }
+
+    .part-logo-item img {
+      max-height: 48px;
+      max-width: 160px;
+      filter: grayscale(100%);
+      opacity: 0.6;
+      transition: filter var(--transition), opacity var(--transition);
+    }
+    .part-logo-item:hover img { filter: grayscale(0%); opacity: 1; }
+
+    /* ── STATS ── */
+    .stats-band {
+      background: var(--rouge);
+      padding: 60px 5%;
+    }
+
+    .stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 24px;
+    }
+
+    .stat-num {
+      font-family: var(--f-titre);
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--gris-fonce);
+      padding: 64px 5% 40px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 60px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 32px;
+    }
+
+    .footer-brand img { height: 40px; margin-bottom: 16px; filter: brightness(0) invert(1); }
+
+    .footer-brand p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.7;
+      max-width: 320px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .social-link {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.6);
+      transition: border-color var(--transition), color var(--transition), background var(--transition);
+    }
+    .social-link:hover {
+      border-color: var(--rouge);
+      color: #fff;
+      background: var(--rouge);
+    }
+
+    .footer-col h4 {
+      font-family: var(--f-titre);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul a {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .footer-col ul a:hover { color: #fff; }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.25);
+    }
+
+    .footer-ul-logo {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ── PAGE: À PROPOS ── */
+    .page { display: none; padding-top: 72px; min-height: 100vh; }
+    .page.active { display: block; }
+
+    .page-hero {
+      background: var(--noir);
+      padding: 80px 5%;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 100% at 100% 50%, rgba(214,40,40,0.1) 0%, transparent 60%);
+    }
+    .page-hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+    .page-hero .section-label { color: rgba(214,40,40,0.8); margin-bottom: 16px; }
+    .page-titre {
+      font-family: var(--f-titre);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .histoire-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .histoire-intro {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 80px;
+      align-items: start;
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .histoire-left .section-titre { margin-bottom: 16px; }
+    .histoire-left .fond-text {
+      font-family: var(--f-titre);
+      font-size: 8rem;
+      font-weight: 800;
+      color: rgba(214,40,40,0.06);
+      line-height: 0.8;
+      margin-bottom: 8px;
+    }
+
+    .histoire-right p {
+      font-size: 1rem;
+      color: var(--texte-doux);
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+
+    .mv-section {
+      padding: 80px 0;
+    }
+
+    .mv-section-titre {
+      font-family: var(--f-titre);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--noir);
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .mv-cards-about {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .mv-card-about {
+      padding: 36px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .mv-card-about:hover {
+      border-color: var(--rouge);
+      box-shadow: 0 8px 32px rgba(214,40,40,0.08);
+    }
+
+    .mv-card-about-icon {
+      width: 44px; height: 44px;
+      background: rgba(214,40,40,0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    .mv-card-about h3 {
+      font-family: var(--f-titre);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--noir);
+      margin-bottom: 10px;
+    }
+
+    .mv-card-about p {
+      font-size: 0.9rem;
+      color: var(--texte-doux);
+      line-height: 1.65;
+    }
+
+    .logo-historique {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .logo-historique h3 {
+      font-family: var(--f-titre);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--noir);
+      margin-bottom: 32px;
+    }
+
+    .logo-historique img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .anciens-section {
+      padding: 0 0 80px;
+    }
+
+    .anciens-section h3 {
+      font-family: var(--f-titre);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--noir);
+      margin-bottom: 32px;
+    }
+
+    .annee-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .annee-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      cursor: pointer;
+      transition: background var(--transition);
+      background: #fff;
+    }
+    .annee-header:hover { background: var(--gris-clair); }
+
+    .annee-header h4 {
+      font-family: var(--f-titre);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--noir);
+    }
+
+    .annee-chevron {
+      font-size: 0.8rem;
+      color: var(--texte-doux);
+      transition: transform var(--transition);
+    }
+
+    .annee-body {
+      display: none;
+      padding: 0 24px 24px;
+      background: #fff;
+    }
+    .annee-body.open { display: block; }
+    .annee-body img {
+      width: 100%;
+      border-radius: 8px;
+      object-fit: cover;
+      max-height: 320px;
+    }
+    .annee-header.open .annee-chevron { transform: rotate(180deg); }
+
+    /* ── CONTACT ── */
+    .contact-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .contact-info .section-titre { margin-bottom: 16px; }
+    .contact-info .section-desc { margin-bottom: 32px; }
+
+    .contact-detail {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .contact-detail-icon {
+      width: 40px; height: 40px;
+      background: rgba(214,40,40,0.08);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .contact-detail-text a, .contact-detail-text span {
+      font-size: 0.9rem;
+      color: var(--texte);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .contact-detail-text a:hover { color: var(--rouge); }
+
+    .contact-form {
+      background: var(--gris-clair);
+      border-radius: 12px;
+      padding: 36px;
+    }
+
+    .form-group { margin-bottom: 20px; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--texte);
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      padding: 12px 16px;
+      font-family: var(--f-corps);
+      font-size: 0.92rem;
+      color: var(--texte);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--rouge); box-shadow: 0 0 0 3px rgba(214,40,40,0.1); }
+
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    .form-submit {
+      width: 100%;
+      background: var(--rouge);
+      color: #fff;
+      border: none;
+      border-radius: var(--r);
+      padding: 14px 28px;
+      font-family: var(--f-corps);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .form-submit:hover { background: var(--rouge-dk); transform: translateY(-1px); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .qui-inner { grid-template-columns: 1fr; gap: 48px; }
+      .heritage-inner { grid-template-columns: 1fr; gap: 48px; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+      .histoire-intro { grid-template-columns: 1fr; gap: 40px; }
+      .mv-cards-about { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      #accueil { padding-top: 100px; }
+
+      .mv-grid { grid-template-columns: 1fr; }
+      .mv-card:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); }
+
+      .ev-grid { grid-template-columns: 1fr; }
+
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+
+      .footer-top { grid-template-columns: 1fr; gap: 36px; }
+
+      .contact-grid { grid-template-columns: 1fr; }
+
+      .mv-cards-about { grid-template-columns: 1fr; }
+
+      .histoire-left .fond-text { font-size: 5rem; }
+
+      .part-logo-item { padding: 24px 32px; }
+    }
+
+    @media (max-width: 480px) {
+      section { padding: 72px 5%; }
+      .stats-inner { grid-template-columns: 1fr 1fr; }
+      .hero-titre { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav id="navbar">
+  <a href="#accueil" class="nav-logo" onclick="showPage('home')">
+    <img src="https://reelul.ca/wp-content/uploads/2021/02/logo-officiel-header-reel.png" alt="Logo RÉEL" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="#accueil" onclick="showPage('home')">Accueil</a></li>
+    <li><a href="#" onclick="showPage('apropos'); return false;">À propos</a></li>
+    <li><a href="#evenements">Événements</a></li>
+    <li><a href="#heritage">Héritage Entrepreneuriat</a></li>
+    <li><a href="#" onclick="showPage('contact'); return false;" class="nav-cta">Nous joindre</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#accueil" onclick="showPage('home'); closeMobile()">Accueil</a>
+  <a href="#" onclick="showPage('apropos'); closeMobile(); return false;">À propos</a>
+  <a href="#evenements" onclick="closeMobile()">Événements</a>
+  <a href="#heritage" onclick="closeMobile()">Héritage Entrepreneuriat</a>
+  <a href="#" onclick="showPage('contact'); closeMobile(); return false;" class="nav-cta">Nous joindre</a>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE ACCUEIL
+══════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section id="accueil">
+    <div class="hero-bg"></div>
+    <div class="hero-grid-lines"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span></span>
+        Association étudiante · Université Laval
+      </div>
+      <h1 class="hero-titre">
+        Étudiants.<br>
+        <em>Entrepreneurs.</em><br>
+        Bâtisseurs.
+      </h1>
+      <p class="hero-desc">
+        Le Regroupement des Étudiants Entrepreneurs de l'Université Laval connecte la communauté étudiante au monde des affaires grâce à des événements, des conférences et des projets d'envergure.
+      </p>
+      <div class="hero-actions">
+        <a href="#evenements" class="btn-primary">
+          Voir les événements
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#" onclick="showPage('apropos'); return false;" class="btn-secondary">
+          Découvrir le RÉEL
+        </a>
+      </div>
+    </div>
+    <a href="#qui" class="hero-scroll">
+      <span class="scroll-line"></span>
+      Défiler
+    </a>
+  </section>
+
+  <!-- STATS BAND -->
+  <div class="stats-band">
+    <div class="stats-inner">
+      <div class="stat-item reveal">
+        <div class="stat-num">2000</div>
+        <div class="stat-label">Année de fondation</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="stat-num">13</div>
+        <div class="stat-label">Membres exécutifs</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-num">+25</div>
+        <div class="stat-label">Ans d'engagement</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Connexions créées</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUI SOMMES-NOUS -->
+  <section id="qui">
+    <div class="qui-inner">
+      <div class="qui-image reveal">
+        <img src="https://reelul.ca/wp-content/uploads/elementor/thumbs/DSC08707-Edit-Edit-Edit-scaled-e1702862355620-qgyxxhrtxl4qtpits34ssrzooooi698t8bbxm4uf20.jpg" alt="Membres du RÉEL" />
+        <div class="qui-image-badge">
+          <strong>+25</strong>
+          ans d'histoire
+        </div>
+      </div>
+      <div class="qui-content reveal reveal-delay-1">
+        <div class="section-label">Qui sommes-nous?</div>
+        <h2 class="section-titre">L'intermédiaire entre l'université et le monde des affaires</h2>
+        <p class="section-desc">
+          Fondé en 2000, le RÉEL est une association étudiante interfacultaire dédiée à l'entrepreneuriat. Chaque jour, nos membres promeuvent la culture entrepreneuriale et soutiennent les jeunes entrepreneurs en développant leurs connaissances, en élargissant leur réseau et en enflammant leur passion pour l'entrepreneuriat.
+        </p>
+        <p class="section-desc" style="margin-top:16px;">
+          C'est par l'organisation d'événements de réseautage, de conférences et de projets d'envergure que le RÉEL se positionne fièrement comme étant l'intermédiaire entre la communauté étudiante et le monde des affaires.
+        </p>
+        <div class="valeurs-list">
+          <span class="valeur-tag">Leadership</span>
+          <span class="valeur-tag">Entraide</span>
+          <span class="valeur-tag">Ambition</span>
+          <span class="valeur-tag">Apprentissage</span>
+          <span class="valeur-tag">Passion</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION / VISION / VALEURS -->
+  <section id="mission">
+    <div style="max-width:1200px; margin:0 auto;">
+      <div style="text-align:center; margin-bottom:48px;" class="reveal">
+        <div class="section-label">Notre ADN</div>
+        <h2 class="section-titre">Ce qui nous anime</h2>
+      </div>
+      <div class="mv-grid reveal reveal-delay-1">
+        <div class="mv-card">
+          <div class="mv-number">01</div>
+          <div class="mv-titre">Mission</div>
+          <p class="mv-texte">Promouvoir la culture entrepreneuriale et soutenir les jeunes entrepreneurs en développant leurs connaissances, en élargissant leur réseau de contacts et en enflammant leur passion pour l'entrepreneuriat.</p>
+        </div>
+        <div class="mv-card">
+          <div class="mv-number">02</div>
+          <div class="mv-titre">Vision</div>
+          <p class="mv-texte">Devenir le pilier de la démarche entrepreneuriale aux yeux des étudiants à l'Université Laval, en connectant chaque étudiant aux ressources, aux personnes et aux opportunités qui feront la différence.</p>
+        </div>
+        <div class="mv-card">
+          <div class="mv-number">03</div>
+          <div class="mv-titre">Valeurs</div>
+          <p class="mv-texte">Leadership, Entraide, Ambition, Apprentissage et Passion — cinq valeurs qui guident chacune de nos actions et reflètent l'esprit qui anime notre communauté depuis plus de 25 ans.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÉVÉNEMENTS -->
+  <section id="evenements">
+    <div class="ev-inner">
+      <div class="ev-header">
+        <div class="reveal">
+          <div class="section-label">Activités</div>
+          <h2 class="section-titre" style="margin-bottom:0;">Événements à venir</h2>
+        </div>
+        <a href="https://reelul.ca/evenements/" target="_blank" class="btn-secondary reveal">Tous les événements →</a>
+      </div>
+      <div class="ev-grid">
+        <div class="ev-card-featured reveal">
+          <div class="ev-img">
+            <img src="https://reelul.ca/wp-content/uploads/2024/03/TROUVE-TON-COFOUN-3-1024x1024.png" alt="Trouve Ton Cofounder" />
+          </div>
+          <div class="ev-body">
+            <div class="ev-meta">
+              <span class="ev-tag">Réseautage</span>
+              <span class="ev-date">12 mars</span>
+            </div>
+            <h3 class="ev-titre-card">Trouve Ton Cofounder</h3>
+            <p class="ev-desc-card">La soirée réseautage idéale pour faire de nouvelles rencontres et trouver votre partenaire d'affaires idéal. Personnalité et domaines d'études complémentaires — on vous propose les deux! Une conférence sera aussi au rendez-vous.</p>
+            <a href="https://reelul.ca/evenements/" target="_blank" class="ev-link">
+              En savoir plus
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 6h10M6 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="ev-sidebar">
+          <a href="https://reelul.ca/evenements/" target="_blank" class="ev-card-small reveal reveal-delay-1">
+            <div class="ev-card-small-date">
+              <span class="jour">12</span>
+              <span class="mois">Mars</span>
+            </div>
+            <div class="ev-card-small-info">
+              <h4>Trouve Ton Cofounder</h4>
+              <p>Soirée réseautage · 1ère édition</p>
+            </div>
+          </a>
+          <a href="https://reelul.ca/evenements/" target="_blank" class="ev-card-small reveal reveal-delay-2">
+            <div class="ev-card-small-date">
+              <span class="jour">–</span>
+              <span class="mois">TBD</span>
+            </div>
+            <div class="ev-card-small-info">
+              <h4>Prochain événement</h4>
+              <p>Suivez nos réseaux pour rester informé</p>
+            </div>
+          </a>
+          <div class="ev-card-small reveal reveal-delay-3" style="background:var(--rouge); border-color:var(--rouge); cursor:default;">
+            <div style="text-align:center; width:100%;">
+              <p style="color:rgba(255,255,255,0.7); font-size:0.82rem; margin-bottom:8px;">Restez informé</p>
+              <a href="https://www.instagram.com/reelul/" target="_blank" style="color:#fff; font-weight:700; font-size:0.9rem; text-decoration:none;">Suivre sur Instagram →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HÉRITAGE ENTREPRENEURIAT -->
+  <section id="heritage">
+    <div class="heritage-bg"></div>
+    <div class="heritage-inner">
+      <div class="heritage-content">
+        <div class="section-label reveal">Projet phare</div>
+        <h2 class="heritage-titre reveal reveal-delay-1">Héritage<br>Entrepreneuriat</h2>
+        <p class="heritage-desc reveal reveal-delay-2">La plateforme éducative qui démocratise le savoir diversifié d'entrepreneurs québécois. Découvrez des parcours inspirants, des conseils concrets et des ressources pour alimenter votre démarche entrepreneuriale.</p>
+        <div style="display:flex; gap:14px; flex-wrap:wrap;" class="reveal reveal-delay-3">
+          <a href="https://www.heritageentrepreneuriat.ca/" target="_blank" class="btn-primary-dark">Découvrir la plateforme →</a>
+          <a href="https://reelul.ca/heritage-entrepreneuriat/" target="_blank" class="btn-outline-white">En savoir plus</a>
+        </div>
+      </div>
+      <div class="heritage-visual reveal reveal-delay-2">
+        <div class="heritage-card">
+          <div class="heritage-card-icon">🎓</div>
+          <div class="heritage-card-titre">Savoir démocratisé</div>
+          <div class="heritage-card-desc">Des contenus accessibles à tous les étudiants, quelles que soient leur faculté ou leur expérience.</div>
+        </div>
+        <div class="heritage-card">
+          <div class="heritage-card-icon">🇶🇨</div>
+          <div class="heritage-card-titre">Entrepreneurs québécois</div>
+          <div class="heritage-card-desc">Des parcours et témoignages d'entrepreneurs locaux qui ont bâti quelque chose de réel.</div>
+        </div>
+        <div class="heritage-card">
+          <div class="heritage-card-icon">🚀</div>
+          <div class="heritage-card-titre">Inspirer la prochaine génération</div>
+          <div class="heritage-card-desc">Une ressource pensée pour allumer la flamme entrepreneuriale chez les futurs bâtisseurs.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTENAIRES -->
+  <section id="partenaires">
+    <div class="part-inner">
+      <div class="section-label reveal">Soutien</div>
+      <h2 class="section-titre reveal">Merci à nos partenaires officiels</h2>
+      <p class="section-desc reveal reveal-delay-1">Des organisations qui croient en la prochaine génération d'entrepreneurs québécois.</p>
+      <div class="part-logos reveal reveal-delay-2">
+        <a href="https://altalex.ca/" target="_blank" class="part-logo-item">
+          <img src="https://reelul.ca/wp-content/uploads/2024/10/logo-header-mobile-300x88.png" alt="Altalex" />
+        </a>
+        <a href="https://www.acomba.com/solutions/acomba-go/" target="_blank" class="part-logo-item">
+          <img src="https://reelul.ca/wp-content/uploads/2021/01/Creation-sans-titre-2-e1710178373123-300x104.png" alt="Acomba Go" />
+        </a>
+        <a href="https://www.aesal.ca/" target="_blank" class="part-logo-item">
+          <img src="https://reelul.ca/wp-content/uploads/2024/10/aesal-web-150x150.webp" alt="AESAL" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-home -->
+
+<!-- ══════════════════════════════════════════
+     PAGE À PROPOS
+══════════════════════════════════════════ -->
+<div id="page-apropos" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="section-label">À propos</div>
+      <h1 class="page-titre">Notre histoire,<br>notre mission.</h1>
+    </div>
+  </div>
+
+  <section style="padding: 0 5%;">
+    <div class="histoire-inner">
+
+      <!-- Intro -->
+      <div class="histoire-intro">
+        <div class="histoire-left">
+          <div class="fond-text">RÉEL</div>
+          <h2 class="section-titre">Fondé en 2000</h2>
+          <p class="section-desc">Une association étudiante inter­facultaire au cœur de l'entrepreneuriat universitaire.</p>
+        </div>
+        <div class="histoire-right">
+          <p>Le Regroupement des Étudiants Entrepreneurs de l'Université Laval est une association étudiante interfacultaire dédiée à l'entrepreneuriat, composée d'un conseil exécutif de 13 étudiants passionnés.</p>
+          <p>C'est par l'organisation d'événements de réseautage, de conférences et de projets d'envergure que le RÉEL se positionne fièrement comme étant l'intermédiaire entre la communauté étudiante et le monde des affaires.</p>
+          <p>Depuis plus de 25 ans, nous connectons des milliers d'étudiants aux ressources, aux personnes et aux opportunités qui façonnent l'avenir entrepreneurial du Québec.</p>
+        </div>
+      </div>
+
+      <!-- Mission, Vision, Valeurs -->
+      <div class="mv-section">
+        <h3 class="mv-section-titre">Ce qui nous définit</h3>
+        <div class="mv-cards-about">
+          <div class="mv-card-about">
+            <div class="mv-card-about-icon">🎯</div>
+            <h3>Notre Mission</h3>
+            <p>Promouvoir la culture entrepreneuriale et soutenir les jeunes entrepreneurs en développant leurs connaissances, en élargissant leur réseau et en enflammant leur passion pour l'entrepreneuriat.</p>
+          </div>
+          <div class="mv-card-about">
+            <div class="mv-card-about-icon">🔭</div>
+            <h3>Notre Vision</h3>
+            <p>Devenir le pilier de la démarche entrepreneuriale aux yeux des étudiants à l'Université Laval.</p>
+          </div>
+          <div class="mv-card-about">
+            <div class="mv-card-about-icon">💡</div>
+            <h3>Nos Valeurs</h3>
+            <p>Leadership · Entraide · Ambition · Apprentissage · Passion — cinq valeurs qui guident chacune de nos actions.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logo historique -->
+      <div class="logo-historique">
+        <h3>Notre logo à travers les années</h3>
+        <img src="https://reelul.ca/wp-content/uploads/2023/04/Sans-titre-36-2048x780.png" alt="Évolution du logo RÉEL" />
+      </div>
+
+      <!-- Anciens exécutifs -->
+      <div class="anciens-section">
+        <h3>Nos anciens exécutifs</h3>
+        <div id="annees-accordion">
+          <!-- Généré par JS -->
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div><!-- /page-apropos -->
+
+<!-- ══════════════════════════════════════════
+     PAGE CONTACT
+══════════════════════════════════════════ -->
+<div id="page-contact" class="page">
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="section-label">Contact</div>
+      <h1 class="page-titre">Nous joindre.</h1>
+    </div>
+  </div>
+
+  <section>
+    <div class="contact-inner">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="section-label">Coordonnées</div>
+          <h2 class="section-titre">On veut avoir de vos nouvelles</h2>
+          <p class="section-desc">Que vous ayez une question, une opportunité de partenariat ou simplement envie d'en savoir plus sur le RÉEL, n'hésitez pas à nous écrire.</p>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">📧</div>
+            <div class="contact-detail-text">
+              <a href="mailto:info@reelul.ca">info@reelul.ca</a>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">📍</div>
+            <div class="contact-detail-text">
+              <span>Université Laval, Québec (QC)</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">📸</div>
+            <div class="contact-detail-text">
+              <a href="https://www.instagram.com/reelul/" target="_blank">@reelul sur Instagram</a>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">💼</div>
+            <div class="contact-detail-text">
+              <a href="https://www.linkedin.com/company/regroupement-des-%C3%A9tudiants-entrepreneurs-de-l'universit%C3%A9-laval-r%C3%A9el-/" target="_blank">LinkedIn · RÉEL</a>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form">
+          <div class="form-group">
+            <label>Nom complet</label>
+            <input type="text" placeholder="Marie Tremblay" />
+          </div>
+          <div class="form-group">
+            <label>Adresse courriel</label>
+            <input type="email" placeholder="marie@exemple.com" />
+          </div>
+          <div class="form-group">
+            <label>Sujet</label>
+            <input type="text" placeholder="Partenariat, question, info..." />
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Votre message ici..."></textarea>
+          </div>
+          <button class="form-submit">Envoyer le message →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /page-contact -->
+
+<!-- ── FOOTER (global) ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="https://reelul.ca/wp-content/uploads/2021/02/logo-officiel-header-reel.png" alt="Logo RÉEL" />
+        <p>Le Regroupement des Étudiants Entrepreneurs de l'Université Laval — connecter la communauté étudiante au monde des affaires depuis 2000.</p>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/reelul/" target="_blank" class="social-link" aria-label="Instagram">IG</a>
+          <a href="https://www.facebook.com/REELUL" target="_blank" class="social-link" aria-label="Facebook">FB</a>
+          <a href="https://www.linkedin.com/company/regroupement-des-%C3%A9tudiants-entrepreneurs-de-l'universit%C3%A9-laval-r%C3%A9el-/" target="_blank" class="social-link" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#accueil" onclick="showPage('home')">Accueil</a></li>
+          <li><a href="#" onclick="showPage('apropos'); return false;">À propos</a></li>
+          <li><a href="#evenements">Événements</a></li>
+          <li><a href="#heritage">Héritage Entrepreneuriat</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Liens</h4>
+        <ul>
+          <li><a href="https://reelul.ca/executif/" target="_blank">Exécutif</a></li>
+          <li><a href="https://www.heritageentrepreneuriat.ca/" target="_blank">heritageentrepreneuriat.ca</a></li>
+          <li><a href="#" onclick="showPage('contact'); return false;">Nous joindre</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2024 RÉEL, Regroupement des Étudiants Entrepreneurs de l'Université Laval. Tous droits réservés.</p>
+      <p class="footer-ul-logo">Université Laval · Québec, Canada</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ── NAVIGATION MULTI-PAGE ── */
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + pageId).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ── NAVBAR SCROLL ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  /* ── HAMBURGER ── */
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+
+  function closeMobile() {
+    mobileMenu.classList.remove('open');
+  }
+
+  /* ── SCROLL REVEAL ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* ── ANCIENS EXÉCUTIFS ACCORDION ── */
+  const annees = [
+    { label: '2022–2023', img: null },
+    { label: '2021–2022', img: 'https://reelul.ca/wp-content/uploads/2023/04/337208580_162590003398513_5306916078086719740_n.jpg' },
+    { label: '2020–2021', img: 'https://reelul.ca/wp-content/uploads/2023/04/IMG_5912.jpeg' },
+    { label: '2019–2020', img: 'https://reelul.ca/wp-content/uploads/2023/04/2020.jpeg' },
+    { label: '2018–2019', img: 'https://reelul.ca/wp-content/uploads/2023/04/2019.jpeg' },
+    { label: '2017–2018', img: 'https://reelul.ca/wp-content/uploads/2023/04/2018.jpeg' },
+    { label: '2016–2017', img: 'https://reelul.ca/wp-content/uploads/2023/04/2017.jpeg' },
+    { label: '2015–2016', img: 'https://reelul.ca/wp-content/uploads/2023/04/2016.jpeg' },
+    { label: '2014–2015', img: 'https://reelul.ca/wp-content/uploads/2023/04/2015.jpeg' },
+    { label: '2013–2014', img: 'https://reelul.ca/wp-content/uploads/2023/04/2014.png' },
+    { label: '2012–2013', img: 'https://reelul.ca/wp-content/uploads/2023/04/2013.jpg' },
+  ];
+
+  const accordion = document.getElementById('annees-accordion');
+  annees.forEach((a, i) => {
+    const item = document.createElement('div');
+    item.className = 'annee-item';
+
+    const header = document.createElement('div');
+    header.className = 'annee-header';
+    header.innerHTML = `<h4>${a.label}</h4><span class="annee-chevron">▼</span>`;
+
+    const body = document.createElement('div');
+    body.className = 'annee-body';
+
+    if (a.img) {
+      body.innerHTML = `<img src="${a.img}" alt="Exécutif ${a.label}" loading="lazy" />`;
+    } else {
+      body.innerHTML = `<p style="color:var(--texte-doux); font-size:0.9rem; padding: 8px 0;">Photo non disponible.</p>`;
+    }
+
+    header.addEventListener('click', () => {
+      const isOpen = body.classList.contains('open');
+      // fermer tous
+      document.querySelectorAll('.annee-body').forEach(b => b.classList.remove('open'));
+      document.querySelectorAll('.annee-header').forEach(h => h.classList.remove('open'));
+      if (!isOpen) {
+        body.classList.add('open');
+        header.classList.add('open');
+      }
+    });
+
+    item.appendChild(header);
+    item.appendChild(body);
+    accordion.appendChild(item);
+  });
+
+  /* ── RE-OBSERVER pour les nouvelles pages ── */
+  const pageObs = new MutationObserver(() => {
+    document.querySelectorAll('.reveal:not([data-observed])').forEach(el => {
+      el.setAttribute('data-observed', '1');
+      observer.observe(el);
+    });
+  });
+  pageObs.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+</script>
+</body>
+</html>
